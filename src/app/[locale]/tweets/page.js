@@ -1,11 +1,12 @@
 'use client';
-import { Input, Select, SelectItem, Button,Spinner } from "@heroui/react";
+import { Input, Select, SelectItem, Button,Spinner,DatePicker } from "@heroui/react";
 import { RiSearchLine } from "@remixicon/react";
 import { getTranslation } from "@/lib/i18n";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import TweetCard from "@/app/components/ui/TweetCard";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import ConfirmModal from "@/app/components/ui/ConfirmModal";
 
 export default function Tweets({ params: { locale } }) {
     const searchParams = useSearchParams();
@@ -44,6 +45,9 @@ export default function Tweets({ params: { locale } }) {
 
     const [shouldSearch, setShouldSearch] = useState(name || screen_name || text);
 
+    const [shouldShowAdultNotice, setShouldShowAdultNotice] = useState(true);
+    const [nextIndex, setNextIndex] = useState(0);
+
     useEffect(() => {
         if (shouldSearch) {
             handleSearch();
@@ -52,6 +56,21 @@ export default function Tweets({ params: { locale } }) {
     }, [shouldSearch]);
 
     const handleSearch = async ({cursor=null}={}) => {
+
+        if(shouldShowAdultNotice) {
+            const confirmed = await ConfirmModal.show({
+                title: t('Warning'),
+                description: <div className="text-sm text-default-500">
+                    <p>{t('Search results may contain adult content. You must be at least 18 years old to continue.')}</p>
+                    <DatePicker className="w-full mt-2" label="Birth date" />
+                </div>,
+                cancelText: t('Cancel'),
+                confirmText: t('Confirm')
+            });
+            if(!confirmed) return;
+            setShouldShowAdultNotice(false);
+        }
+
         if(loading) return;
         setLoading(true);
 
@@ -62,6 +81,7 @@ export default function Tweets({ params: { locale } }) {
         
         setTweets(prevTweets => {
             let targetTweets;
+            let currentIndex = nextIndex;
     
             if (cursor) {
                 // 加载更多：基于现有数据
@@ -69,15 +89,18 @@ export default function Tweets({ params: { locale } }) {
             } else {
                 // 新搜索：但不创建全新数组，而是清空现有数组
                 targetTweets = prevTweets.map(() => []); // 清空但保持数组引用
+                currentIndex = 0;
             }
             
-            // 添加新数据
-            data.data.forEach((tweet, index) => {
-                targetTweets[index % 3].push({
+            // 添加新数据，均匀的分配到三个数组中
+            data.data.forEach((tweet) => {
+                targetTweets[currentIndex].push({
                     ...tweet,
                     tweet_media: tweet.tweet_media ? tweet.tweet_media.split(',') : []
                 });
+                currentIndex = (currentIndex + 1) % 3;
             });
+            setNextIndex(currentIndex); 
             
             return targetTweets;
         });
@@ -229,7 +252,7 @@ export default function Tweets({ params: { locale } }) {
                             {tweets.map((row, index) => (
                                 <div key={index} className="w-full md:w-1/3 flex flex-col gap-5">
                                     {row.map((tweet) => (
-                                        <TweetCard locale={locale} key={tweet.tweet_id} tweet={tweet} />
+                                        <TweetCard locale={locale} key={tweet.tweet_id} tweet={tweet} videoPreview={false} />
                                     ))}
                                 </div>
                             ))}

@@ -62,7 +62,7 @@ export async function GET(request) {
       allData = await Tweets.find({ 
         ...baseFilter
       }).select('tweet_id post_at');
-count = allData.length;
+      count = allData.length;
     }else if (action === 'random') {
       allData = await Tweets.aggregate([
         { $match: {
@@ -137,6 +137,9 @@ count = allData.length;
         // 如果有cursor，添加分页条件
         if (cursor && cursor !== '0') {
           try {
+              // $lt: 小于
+              // $gt: 大于
+              // 我要取cursor之前的，所以用$lt
               query._id = { $lt: new ObjectId(cursor) };
           } catch (e) {
               // 如果cursor格式无效，忽略分页
