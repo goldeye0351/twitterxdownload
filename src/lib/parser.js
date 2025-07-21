@@ -32,7 +32,14 @@ function parseFullText(fullText,tweet) {
 }
 function parseTweetData(oriData) {
     try {
-        const entries = oriData.data.threaded_conversation_with_injections_v2.instructions[0].entries;
+        let entries;
+        for (const instruction of oriData.data.threaded_conversation_with_injections_v2.instructions) {
+            if (instruction.entries) {
+                entries = instruction.entries;
+                break;
+            }
+        }
+        
         const tweets = [];
 
         for (let i = 0; i < entries.length; i++) {

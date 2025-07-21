@@ -55,7 +55,14 @@ export async function GET(request) {
         // created_at
 
         // 获取推文数据
-        const resultTweet = respData.data.data.threaded_conversation_with_injections_v2.instructions[0].entries[0].content.itemContent.tweet_results.result;
+        let data_entries;
+        for (const instruction of data.data.threaded_conversation_with_injections_v2.instructions) {
+            if (instruction.entries) {
+                data_entries = instruction.entries;
+                break;
+            }
+        }
+        const resultTweet = data_entries[0].content.itemContent.tweet_results.result;
         
         // 获取主推文数据
         const first_tweet = resultTweet.legacy || resultTweet.tweet.legacy;
@@ -109,8 +116,7 @@ export async function GET(request) {
         
         // 计算线程中的推文数量
         let tweet_threadscount = 0;
-        const entries = respData.data.data.threaded_conversation_with_injections_v2.instructions[0].entries;
-        entries.forEach(entry => {
+        data_entries.forEach(entry => {
             if (entry.content.__typename === "TimelineTimelineModule") {
                 // Process items in module, only process tweets in thread, not replies
                 if (entry.content.items && Array.isArray(entry.content.items)) {
