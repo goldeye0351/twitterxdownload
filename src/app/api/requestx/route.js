@@ -56,7 +56,7 @@ export async function GET(request) {
 
         // 获取推文数据
         let data_entries;
-        for (const instruction of data.data.threaded_conversation_with_injections_v2.instructions) {
+        for (const instruction of respData.data.data.threaded_conversation_with_injections_v2.instructions) {
             if (instruction.entries) {
                 data_entries = instruction.entries;
                 break;
