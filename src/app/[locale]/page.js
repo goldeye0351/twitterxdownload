@@ -34,7 +34,6 @@ export default async function Home({ params: { locale } }) {
         {process.env.NEXT_PUBLIC_HOME_LISTING != 0 && (
         <>
           <div className="section">
-            <h3 className="text-2xl font-bold px-2 py-4">{t('Hot Creators')}</h3>
             <HotCreators locale={locale} />
           </div>
           <div className="section">

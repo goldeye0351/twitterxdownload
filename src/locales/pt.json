@@ -85,5 +85,14 @@
   "Post At": "Publicado em",
   "Import API keys": "Importar chaves de API",
   "Export API keys": "Exportar chaves de API",
-  "Invalid API keys": "Chaves de API inválidas"
+  "Invalid API keys": "Chaves de API inválidas",
+  "Invalid admin password": "Senha de administrador inválida",
+  "Tweet shown successfully": "Tweet exibido com sucesso",
+  "This tweet will be shown on homepage": "Este tweet será exibido na página inicial",
+  "Tweet hidden successfully": "Tweet ocultado com sucesso", 
+  "This tweet will be hidden on homepage": "Este tweet será ocultado na página inicial",
+  "Tweet deleted successfully": "Tweet excluído com sucesso",
+  "This tweet will be deleted from database": "Este tweet será excluído do banco de dados", 
+  "Search results may contain adult content. You must be at least 18 years old to continue.": "Os resultados da pesquisa podem conter conteúdo adulto. Você deve ter pelo menos 18 anos para continuar.",
+  "Birth date": "Data de nascimento"
 } 

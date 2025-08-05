@@ -83,5 +83,14 @@
   "Post At": "发布时间",
   "Import API keys": "导入API密钥",
   "Export API keys": "导出API密钥",
-  "Invalid API keys": "无效的API密钥文件"
+  "Invalid API keys": "无效的API密钥文件",
+  "Invalid admin password": "无效的管理员密码",
+  "Tweet shown successfully": "推文显示成功",
+  "This tweet will be shown on homepage": "此推文将在首页显示",
+  "Tweet hidden successfully": "推文隐藏成功",
+  "This tweet will be hidden on homepage": "此推文将在首页隐藏",
+  "Tweet deleted successfully": "推文删除成功",
+  "This tweet will be deleted from database": "此推文将从数据库删除",
+  "Search results may contain adult content. You must be at least 18 years old to continue.": "搜索结果可能包含成人内容，您必须至少18岁才能继续。",
+  "Birth date": "出生日期"
 }

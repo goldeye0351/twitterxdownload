@@ -19,7 +19,6 @@ export default function Hero({ locale = 'en',
 
     return (
         <>
-            <ToastProvider placement="top-center" toastOffset={230} />
             <div className="text-center pt-16 pb-2">
                 <h1 className="text-5xl font-bold text-primary mb-2">
                     {t('Download Twitter Video And ALL')}

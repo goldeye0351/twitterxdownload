@@ -85,5 +85,14 @@
   "Post At": "เผยแพร่เมื่อ",
   "Import API keys": "นำเข้าคีย์ API",
   "Export API keys": "ส่งออกคีย์ API",
-  "Invalid API keys": "คีย์ APIไม่ถูกต้อง"
+  "Invalid API keys": "คีย์ APIไม่ถูกต้อง",
+  "Invalid admin password": "รหัสผ่านผู้ดูแลระบบไม่ถูกต้อง",
+  "Tweet shown successfully": "แสดงทวีตสำเร็จ",
+  "This tweet will be shown on homepage": "ทวีตนี้จะแสดงบนหน้าแรก",
+  "Tweet hidden successfully": "ซ่อนทวีตสำเร็จ", 
+  "This tweet will be hidden on homepage": "ทวีตนี้จะถูกซ่อนจากหน้าแรก",
+  "Tweet deleted successfully": "ลบทวีตสำเร็จ",
+  "This tweet will be deleted from database": "ทวีตนี้จะถูกลบออกจากฐานข้อมูล",  
+  "Search results may contain adult content. You must be at least 18 years old to continue.": "ผลการค้นหาอาจมีเนื้อหาสำหรับผู้ใหญ่ คุณต้องมีอายุอย่างน้อย 18 ปีจึงจะดำเนินการต่อได้",
+  "Birth date": "วันเกิด"
 } 

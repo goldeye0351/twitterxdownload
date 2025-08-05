@@ -1,5 +1,5 @@
 'use client'
-import { Card, CardFooter, CardHeader, Button, Avatar, Skeleton,ScrollShadow } from "@heroui/react";
+import { Card, CardFooter, CardHeader, Button, Avatar, Skeleton,ScrollShadow, Spinner,Chip } from "@heroui/react";
 import { getTranslation } from "@/lib/i18n";
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -8,8 +8,9 @@ export default function HotCreators({ locale = 'en' }) {
     const t = function (key) {
         return getTranslation(locale, key);
     }
-    
+    const [count, setCount] = useState(0);
     const [creators, setCreators] = useState([]);
+
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function HotCreators({ locale = 'en' }) {
             });
             const creatorsData = await creatorsResp.json();
             setCreators(creatorsData.data||[]);
+            setCount(creatorsData.count||0);
             setIsLoading(false);
         }
         fetchCreators();
@@ -26,6 +28,11 @@ export default function HotCreators({ locale = 'en' }) {
 
     if (isLoading) {
         return (
+            <>
+            <div className="text-2xl font-bold px-2 py-4 flex">
+                <div>{t('Hot Creators')}</div>
+                <Spinner size="sm" color="primary" className="ml-2" />
+            </div>
             <ScrollShadow className="w-full flex gap-5" orientation="horizontal">
                 {Array.from({ length: 6 }).map((_, index) => (
                     <Card
@@ -49,11 +56,21 @@ export default function HotCreators({ locale = 'en' }) {
                 </Card>
                 ))}
             </ScrollShadow>
+            </>
         );
     }
 
     return (
         <>
+            <div className="text-2xl font-bold px-2 py-4 flex items-center">
+                <div>{t('Hot Creators')}</div>
+                <Chip color="primary" size="sm" variant="flat" className="ml-2 mt-1">{count}</Chip>
+                <div className="ml-auto">
+                    <Button color="primary" size="sm" variant="light" as={Link} href="/creators">
+                        {t('View All')}
+                    </Button>
+                </div>
+            </div>
             <ScrollShadow className="w-full flex gap-5" orientation="horizontal">
                 {creators.map((creator) => (
                     <Card

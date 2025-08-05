@@ -160,7 +160,6 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
 
     return (
         <>
-            <ToastProvider placement="top-center"/>
             <Card
                 shadow="none"
                 isHoverable={!enableEdit}
@@ -169,7 +168,7 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
                 className={`tweet-card w-full p-2 cursor-pointer select-none border-foreground/10 border-[1px] rounded-2xl ${className}`}
                 key={tweet.tweet_id}>
                 <CardHeader as={!enableEdit ? Link : 'div'}
-                href={`/tweets/${tweet.tweet_id}`} className="flex justify-between gap-4">
+                href={`/tweets/${tweet.tweet_id}`} target="_blank" className="flex justify-between gap-4">
                     <Avatar
                         className="flex-shrink-0"
                         isBordered
@@ -187,7 +186,7 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
                         </div>}
                 </CardHeader>
                 <CardBody as={!enableEdit ? Link : 'div'}
-                href={`/tweets/${tweet.tweet_id}`} className="text-small text-default-400 pb-0">
+                href={`/tweets/${tweet.tweet_id}`} target="_blank" className="text-small text-default-400 pb-0">
                     <pre className={`whitespace-pre-wrap ${enableEdit ? "border-[1px] border-primary p-2 rounded-md text-foreground" : ""}`} contentEditable={enableEdit} onInput={(e) => {
                         setTextLength(e.target.innerText.length);
                     }} 

@@ -85,5 +85,14 @@
   "Post At": "投稿日時",
   "Import API keys": "APIキーをインポート",
   "Export API keys": "APIキーをエクスポート",
-  "Invalid API keys": "無効なAPIキー"
+  "Invalid API keys": "無効なAPIキー",
+  "Invalid admin password": "無効な管理者パスワード",
+  "Tweet shown successfully": "ツイートの表示に成功しました",
+  "This tweet will be shown on homepage": "このツイートはホームページに表示されます",
+  "Tweet hidden successfully": "ツイートの非表示に成功しました", 
+  "This tweet will be hidden on homepage": "このツイートはホームページから非表示になります",
+  "Tweet deleted successfully": "ツイートの削除に成功しました", 
+  "This tweet will be deleted from database": "このツイートはデータベースから削除されます",
+  "Search results may contain adult content. You must be at least 18 years old to continue.": "検索結果には成人向けコンテンツが含まれる可能性があります。続行するには18歳以上である必要があります。",
+  "Birth date": "生年月日"
 } 

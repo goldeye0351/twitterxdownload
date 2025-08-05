@@ -1,5 +1,5 @@
 'use client'
-import { Chip, Skeleton,Spinner } from "@heroui/react";
+import { Chip, Spinner } from "@heroui/react";
 import { getTranslation } from "@/lib/i18n";
 import TweetCard from './TweetCard';
 import { useEffect, useState } from 'react';

@@ -62,7 +62,7 @@ export default function Tweets({ params: { locale } }) {
                 title: t('Warning'),
                 description: <div className="text-sm text-default-500">
                     <p>{t('Search results may contain adult content. You must be at least 18 years old to continue.')}</p>
-                    <DatePicker className="w-full mt-2" label="Birth date" />
+                    <DatePicker className="w-full mt-2" label={t('Birth date')} />
                 </div>,
                 cancelText: t('Cancel'),
                 confirmText: t('Confirm')
@@ -252,7 +252,7 @@ export default function Tweets({ params: { locale } }) {
                             {tweets.map((row, index) => (
                                 <div key={index} className="w-full md:w-1/3 flex flex-col gap-5">
                                     {row.map((tweet) => (
-                                        <TweetCard locale={locale} key={tweet.tweet_id} tweet={tweet} videoPreview={false} />
+                                        <TweetCard locale={locale} key={tweet.tweet_id} tweet={tweet} />
                                     ))}
                                 </div>
                             ))}

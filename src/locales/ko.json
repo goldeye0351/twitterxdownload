@@ -85,5 +85,14 @@
   "Post At": "게시 시간",
   "Import API keys": "API 키 가져오기",
   "Export API keys": "API 키 내보내기",
-  "Invalid API keys": "잘못된 API 키"
+  "Invalid API keys": "잘못된 API 키",
+  "Invalid admin password": "잘못된 관리자 비밀번호",
+  "Tweet shown successfully": "트윗이 성공적으로 표시되었습니다",
+  "This tweet will be shown on homepage": "이 트윗이 홈페이지에 표시됩니다",
+  "Tweet hidden successfully": "트윗이 성공적으로 숨겨졌습니다",
+  "This tweet will be hidden on homepage": "이 트윗이 홈페이지에서 숨겨집니다",
+  "Tweet deleted successfully": "트윗이 성공적으로 삭제되었습니다", 
+  "This tweet will be deleted from database": "이 트윗이 데이터베이스에서 삭제됩니다",
+  "Search results may contain adult content. You must be at least 18 years old to continue.": "검색 결과에 성인 콘텐츠가 포함될 수 있습니다. 계속하려면 18세 이상이어야 합니다.",
+  "Birth date": "생년월일"
 } 

@@ -6,6 +6,25 @@ import { ObjectId } from 'mongodb';
 
 const HIDDEN_KEYWORDS_REGEX = process.env.HIDDEN_KEYWORDS? process.env.HIDDEN_KEYWORDS.replace(/,/g, '|') : '';
 
+
+let Storage = {};
+// 设置缓存, 默认缓存24小时
+function setStorage(key, value, expire=86400) {
+  Storage[key] = {
+    value: value,
+    expire: Date.now() + expire * 1000
+  };
+}
+
+// 获取缓存, 如果缓存过期, 则返回null
+function getStorage(key) {
+  if(Storage[key] && Storage[key].expire > Date.now()) {
+    return Storage[key].value;
+  }
+  return null;
+}
+
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const action = searchParams.get('action');
@@ -36,26 +55,34 @@ export async function GET(request) {
     let allData;
     let count = 0;
     if (!action || action === 'recent') {
-      const result = await Tweets.aggregate([
-        {
-          $facet: {
-            data: [
-              { $match: { 
-                ...baseFilter,
-                is_hidden: { $ne: 1 }
-              } },
-              { $sort: { created_at: -1 } },
-              { $project: {
-                tweet_data: 0
-              }},
-              { $limit: 15 }
-            ],
-            count: [
-              { $count: "total" }
-            ]
+      const cachedData = getStorage('recent_tweets');
+      let result;
+      if(cachedData){
+        result = cachedData;
+      }else{
+        result = await Tweets.aggregate([
+          {
+            $facet: {
+              data: [
+                { $match: { 
+                  ...baseFilter,
+                  is_hidden: { $ne: 1 }
+                } },
+                { $sort: { created_at: -1 } },
+                { $project: {
+                  tweet_data: 0
+                }},
+                { $limit: 15 }
+              ],
+              count: [
+                { $count: "total" }
+              ]
+            }
           }
-        }
-      ]);
+        ]);
+        setStorage('recent_tweets', result, 3600);
+      }
+      
       allData = result[0].data;
       count = result[0].count[0]?.total || 0;
     } else if (action === 'all') {
@@ -71,28 +98,64 @@ export async function GET(request) {
         { $sample: { size: 10 } }
       ]);
     } else if (action === 'creators') {
-      allData = await Tweets.aggregate([
-        { $match: {
-          ...baseFilter,
-          is_hidden: { $ne: 1 }
-        } },
-        { $group: {
-          _id: "$screen_name", 
-          count: { $sum: 1 },
-          name: { $first: "$name" },
-          screen_name: { $first: "$screen_name" },
-          profile_image: { $first: "$profile_image" }
-        }},
-        { $project: {
-          _id: 0,
-          name: 1,
-          screen_name: "$_id",
-          count: 1,
-          profile_image: 1
-        }},
-        { $sort: { count: -1 } },
-        { $limit: 6 }
-      ]);
+      const limit = searchParams.get('limit')||6;
+      // 使用单一聚合管道优化性能，避免多次数据库查询
+      const cachedData = getStorage('creators_'+limit);
+      if(cachedData){
+        allData = cachedData;
+      }else{
+        allData = await Tweets.aggregate([
+          { $match: {
+            ...baseFilter
+          }},
+          { $group: {
+            _id: {
+              screen_name: "$screen_name",
+              tweet_text: "$tweet_text"
+            },
+            name: { $first: "$name" },
+            screen_name: { $first: "$screen_name" },
+            profile_image: { $first: "$profile_image" },
+            tweet_text: { $first: "$tweet_text" },
+            totalCount: { $sum: 1 },
+            hiddenCount: { $sum: { $cond: [{ $eq: ["$is_hidden", 1] }, 1, 0] } }
+          }},
+          { $group: {
+            _id: "$screen_name",
+            name: { $first: "$name" },
+            screen_name: { $first: "$screen_name" },
+            profile_image: { $first: "$profile_image" },
+            totalCount: { $sum: 1 },
+            hiddenCount: { $sum: { $cond: [{ $gt: ["$hiddenCount", 0] }, 1, 0] } }
+          }},
+          { $project: {
+            _id: 0,
+            name: 1,
+            screen_name: "$_id",
+            profile_image: 1,
+            count: "$totalCount",
+            // 只有存在未隐藏推文的创作者才会被包含
+            hasVisible: { $gt: [{ $subtract: ["$totalCount", "$hiddenCount"] }, 0] }
+          }},
+          { $match: {
+            hasVisible: true
+          }},
+          { $sort: { count: -1 } },
+          { $limit: parseInt(limit) },
+          { $project: {
+            hasVisible: 0
+          }}
+        ]);
+        setStorage('creators_'+limit, allData);
+      }
+      
+      const cachedCount = getStorage('creators_count');
+      if(cachedCount){
+        count = cachedCount;
+      }else{
+        count = await Tweets.distinct('screen_name', baseFilter).then(names => names.length);
+        setStorage('creators_count', count);
+      }
     } else if (action === 'detail') {
         const tweet_id = searchParams.get('tweet_id');
         allData = await Tweets.find({ tweet_id }).limit(1);
@@ -151,6 +214,14 @@ export async function GET(request) {
         const result = await Tweets.aggregate([
             { $match: query },
             { $project: { tweet_data: 0 } },
+            { $sort: { post_at: -1 } },
+            { 
+                $group: {
+                    _id: "$tweet_text",
+                    doc: { $first: "$$ROOT" }
+                }
+            },
+            { $replaceRoot: { newRoot: "$doc" } },
             { $sort: { post_at: -1 } },
             { $limit: limit }
         ]);
