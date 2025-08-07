@@ -5,6 +5,7 @@ import HotCreators from '@/app/components/ui/HotCreators';
 import Hero from '@/app/components/ui/Hero';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers'
+import Adsterra from '@/app/components/common/Adsterra';
 
 export default async function Home({ params: { locale } }) {
   const t = function (key) {
@@ -30,6 +31,9 @@ export default async function Home({ params: { locale } }) {
             'use server';
             redirect(`/downloader?url=${url}`);
           }} />
+          <div className="w-full mx-auto">
+            <Adsterra />
+          </div>
         </div>
         {process.env.NEXT_PUBLIC_HOME_LISTING != 0 && (
         <>
