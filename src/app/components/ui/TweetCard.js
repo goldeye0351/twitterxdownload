@@ -75,7 +75,7 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
             const confirmed = await ConfirmModal.show({
                 title: t('Warning'),
                 description: <>
-                    <div className="text-small text-default-400">{t('Hide this tweet from homepage?')}</div>
+                    <div className="text-small text-default-400">{t('Show this tweet on homepage?')}</div>
                     <Input autoComplete="on" defaultValue={savedPwd} name="adminpwd" type="password" onChange={(e) => {passwordInputRef.current = e.target.value;}} placeholder={t('Please enter the admin password')} />
                 </>,
                 cancelText: t('Cancel'),
