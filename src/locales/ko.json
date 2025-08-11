@@ -94,5 +94,6 @@
   "Tweet deleted successfully": "트윗이 성공적으로 삭제되었습니다", 
   "This tweet will be deleted from database": "이 트윗이 데이터베이스에서 삭제됩니다",
   "Search results may contain adult content. You must be at least 18 years old to continue.": "검색 결과에 성인 콘텐츠가 포함될 수 있습니다. 계속하려면 18세 이상이어야 합니다.",
-  "Birth date": "생년월일"
+  "Birth date": "생년월일",
+  "View All": "모두 보기"
 } 

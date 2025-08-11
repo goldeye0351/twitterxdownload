@@ -1,6 +1,6 @@
 'use client';
 import { getTranslation } from '@/lib/i18n';
-import { Button, addToast, ToastProvider } from '@heroui/react';
+import { Button, addToast } from '@heroui/react';
 import { RiDownloadLine } from '@remixicon/react';
 import { useRef } from 'react';
 
@@ -9,7 +9,7 @@ export default function Hero({ locale = 'en',
     downloadButtonIsLoading = false,
     remainApiCount = 0,
     onDownload = (url) => {}, 
-    url = ''
+    url = 'https://x.com/elonmusk/status/1853948745521439079'
 }) {
     const t = function (key) {
         return getTranslation(locale, key);
@@ -34,6 +34,9 @@ export default function Hero({ locale = 'en',
                             placeholder="https://x.com/username/status/123456789"
                             ref={inputRef}
                             defaultValue={url}
+                            onFocus={() => {
+                                inputRef.current.select();
+                            }}
                         />
                         <Button
                             onPress={() => {

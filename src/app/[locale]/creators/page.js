@@ -20,6 +20,7 @@ export default async function Creators({ params: { locale } }) {
                 <Card
                     as={Link}
                     href={`https://x.com/${creator.screen_name}`}
+                    title={`${creator.name} ${creator.screen_name}`}
                     target="_blank"
                     shadow="none"
                     disableRipple

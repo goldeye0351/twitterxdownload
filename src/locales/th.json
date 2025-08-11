@@ -94,5 +94,6 @@
   "Tweet deleted successfully": "ลบทวีตสำเร็จ",
   "This tweet will be deleted from database": "ทวีตนี้จะถูกลบออกจากฐานข้อมูล",  
   "Search results may contain adult content. You must be at least 18 years old to continue.": "ผลการค้นหาอาจมีเนื้อหาสำหรับผู้ใหญ่ คุณต้องมีอายุอย่างน้อย 18 ปีจึงจะดำเนินการต่อได้",
-  "Birth date": "วันเกิด"
+  "Birth date": "วันเกิด",
+  "View All": "ดูทั้งหมด"
 } 
