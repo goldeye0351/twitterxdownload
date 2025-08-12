@@ -10,6 +10,7 @@ import { parseTweetData } from '@/lib/parser';
 import TweetCard from '@/app/components/ui/TweetCard';
 import { translate } from '@/lib/translator';
 import ConfirmModal from '@/app/components/ui/ConfirmModal';
+import JSZip from 'jszip';
 
 export default function Downloader({ params: { locale } }) {
     const searchParams = useSearchParams();
@@ -23,6 +24,8 @@ export default function Downloader({ params: { locale } }) {
     const [tweetData, setTweetData] = useState(null);
     const [originTweets, setOriginTweets] = useState([]);
     const [tweets, setTweets] = useState([]);
+
+    const [isPackaging, setIsPackaging] = useState(false);
 
     const t = function (key) {
         return getTranslation(locale, key);
@@ -176,6 +179,65 @@ export default function Downloader({ params: { locale } }) {
         setTweets(tempTweets);
     }    
 
+    const handleDownloadAllMedia = async () => {
+        if(isPackaging) return;
+        setIsPackaging(true);
+        await downloadAllMedia();
+        setIsPackaging(false);
+    }
+
+    const downloadAllMedia = async () => {
+        const zip = new JSZip();
+        // 先创建一个文件夹
+        const folder = zip.folder('medias_from_twitterxdownload');
+        const tempTweets = [...tweets];
+        for(let i = 0; i < tempTweets.length; i++){
+            const tweet = tempTweets[i];
+            for(let j = 0; j < tweet.tweet_media.length; j++){
+                const media = tweet.tweet_media[j];
+                const {blob, filename} = await fetchMedia(media);
+                folder.file(filename, blob);
+            }
+        }
+        // 添加.URL文件和.webloc文件
+        folder.file('download_more.URL', 'https://twitterxdownload.com/');
+        folder.file('download_more.webloc', '<dict><key>URL</key><string>https://twitterxdownload.com/</string></dict>');
+
+        // 最后生成zip文件
+        const content = await zip.generateAsync({type: 'blob'});
+        const url = window.URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'medias_from_twitterxdownload.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+    const fetchMedia = async (media) => {
+        try {
+            const response = await fetch(media, {
+                mode: 'cors',
+                cache: 'no-cache'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const blob = await response.blob();
+            return {
+                blob: blob,
+                filename: media.split('/').pop().split('?')[0] || 'downloaded_media'
+            };
+        } catch (error) {
+            console.error('Error fetching media:', error);
+            return null;
+        }
+    }
+
     return (
         <div className="page-container">
             <Drawer isOpen={isOpen} isDismissable={false} hideCloseButton={true} size="md" radius="none" onOpenChange={onOpenChange}>
@@ -229,6 +291,9 @@ export default function Downloader({ params: { locale } }) {
                                         }
                                     </div>
                                 ))}
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <Button onPress={handleDownloadAllMedia} size="sm" radius="full" color="primary" className="mt-3" isLoading={isPackaging}>{t('Download All')}</Button>
                             </div>
                         </div>
                         <div className="w-full box-border border-foreground/10 border-[1px] rounded-2xl p-8 bg-[#f8f8f8] dark:bg-foreground/5">

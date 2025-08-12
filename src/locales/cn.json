@@ -93,5 +93,7 @@
   "This tweet will be deleted from database": "此推文将从数据库删除",
   "Search results may contain adult content. You must be at least 18 years old to continue.": "搜索结果可能包含成人内容，您必须至少18岁才能继续。",
   "Birth date": "出生日期",
-  "View All": "查看全部"
+  "View All": "查看全部",
+  "Download All": "下载全部",
+  "Goto Article": "前往文章"
 }

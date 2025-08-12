@@ -95,5 +95,7 @@
   "This tweet will be deleted from database": "このツイートはデータベースから削除されます",
   "Search results may contain adult content. You must be at least 18 years old to continue.": "検索結果には成人向けコンテンツが含まれる可能性があります。続行するには18歳以上である必要があります。",
   "Birth date": "生年月日",
-  "View All": "すべて表示"
+  "View All": "すべて表示",
+  "Download All": "すべてダウンロード",
+  "Goto Article": "記事へ移動"
 } 

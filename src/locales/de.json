@@ -95,5 +95,7 @@
   "This tweet will be deleted from database": "Dieser Tweet wird aus der Datenbank gelöscht",
   "Search results may contain adult content. You must be at least 18 years old to continue.": "Suchergebnisse können Inhalte für Erwachsene enthalten. Sie müssen mindestens 18 Jahre alt sein, um fortzufahren.",
   "Birth date": "Geburtsdatum",
-  "View All": "Alle anzeigen"
+  "View All": "Alle anzeigen",
+  "Download All": "Alle herunterladen",
+  "Goto Article": "Zur Artikel"
 } 
