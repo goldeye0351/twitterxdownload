@@ -6,10 +6,10 @@ function parseFullText(fullText,tweet) {
     const tcoLinks = fullText.match(urlRegex) || [];
 
     // Replace t.co links with their expanded URLs if available
-    if (tcoLinks.length > 0 && tweet.legacy?.entities?.urls) {
+    if (tcoLinks.length > 0 && tweet.note_tweet?.note_tweet_results?.result?.entity_set?.urls) {
         for (let i = 0; i < tcoLinks.length; i++) {
             const tcoLink = tcoLinks[i];
-            const urlEntity = tweet.legacy.entities.urls.find(url => url.url === tcoLink);
+            const urlEntity = tweet.note_tweet?.note_tweet_results?.result?.entity_set?.urls.find(url => url.url === tcoLink);
             
             if (urlEntity) {
                 // Replace with expanded URL
@@ -20,11 +20,6 @@ function parseFullText(fullText,tweet) {
             }
         }
     }
-
-    // if(tweet.legacy && tweet.legacy.quoted_status_permalink){
-    //     // quote 引用
-    //     fullText += `\n\n<a href="${tweet.legacy.quoted_status_permalink.expanded}" target="_blank" rel="noopener noreferrer">${tweet.legacy.quoted_status_permalink.expanded}</a>`;
-    // }
 
     // 将 &amp; 转换为 &
     fullText = fullText.replace(/&amp;/g, '&');
