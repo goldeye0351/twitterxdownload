@@ -21,6 +21,9 @@ function parseFullText(fullText,tweet) {
         }
     }
 
+    // 直接用正则替换所有的 t.co 链接为空
+    fullText = fullText.replace(urlRegex, '');
+
     // 将 &amp; 转换为 &
     fullText = fullText.replace(/&amp;/g, '&');
     return fullText;
