@@ -31,9 +31,9 @@ export default function Hero({ locale = 'en',
                         <input
                             type="text"
                             className="w-full px-4 py-3 pr-24 rounded-xl bg-gray-800 text-gray-300 border border-foreground/10"
-                            placeholder="https://x.com/username/status/123456789"
+                            placeholder="https://x.com/usacuicui/status/1976273096635187340"
                             ref={inputRef}
-                            defaultValue={url}
+                            defaultValue={"https://x.com/usacuicui/status/1976273096635187340"}
                             onFocus={() => {
                                 inputRef.current.select();
                             }}
