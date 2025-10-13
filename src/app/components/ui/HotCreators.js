@@ -65,11 +65,6 @@ export default function HotCreators({ locale = 'en' }) {
             <div className="text-2xl font-bold px-2 py-4 flex items-center">
                 <div>{t('Hot Creators')}</div>
                 <Chip color="primary" size="sm" variant="flat" className="ml-2 mt-1">{count}</Chip>
-                <div className="ml-auto">
-                    <Button color="primary" size="sm" variant="light" as={Link} href="/creators">
-                        {t('View All')}
-                    </Button>
-                </div>
             </div>
             <ScrollShadow className="w-full flex gap-5" orientation="horizontal">
                 {creators.map((creator) => (
@@ -93,19 +88,6 @@ export default function HotCreators({ locale = 'en' }) {
                                 <h5 className="w-full text-small tracking-tight text-default-400 text-ellipsis overflow-hidden whitespace-nowrap">@{creator.screen_name}</h5>
                             </div>
                         </CardHeader>
-                        <CardFooter className="justify-between before:bg-white/10 overflow-hidden w-[calc(100%_-_8px)]">
-                            
-                                <Button
-                                    className="text-tiny text-white m-auto w-[100px]"
-                                    color="primary"
-                                    radius="full"
-                                    size="sm"
-                                    as={Link}
-                                    href={`/tweets?screen_name=${creator.screen_name}`}
-                                >
-                                    {t('Search')}
-                                </Button>
-                        </CardFooter>
                     </Card>
                 ))}
             </ScrollShadow>

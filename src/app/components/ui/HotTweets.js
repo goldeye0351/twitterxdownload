@@ -55,7 +55,7 @@ export default function HotTweets({ locale = 'en' }) {
                 {tweets.map((row, index) => (
                     <div key={index} className="md:w-1/3 w-full flex flex-col gap-5">
                         {row.map((tweet) => (
-                            <TweetCard locale={locale} key={tweet.tweet_id} tweet={tweet} />
+                            <TweetCard key={tweet.tweet_id} tweet={tweet} enableEdit={true} className="mb-2 cursor-auto select-text"  />
                         ))}
                     </div>
                 ))}
