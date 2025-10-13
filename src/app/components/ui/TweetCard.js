@@ -5,7 +5,7 @@ import { RiCloseCircleFill,RiArrowDropDownLine,RiMoreFill } from "@remixicon/rea
 
 import Link from "next/link";
 
-export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,locale='en', className }) {
+export default function TweetCard({ tweet,videoPreview=true, className }) {
     
 
     const [textLength, setTextLength] = useState(tweet.tweet_text.length);
@@ -31,13 +31,11 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
         <>
             <Card
                 shadow="none"
-                isHoverable={!enableEdit}
-                isPressable={!enableEdit}
                 disableRipple={true}
                 className={`tweet-card w-full p-2 cursor-pointer select-none border-foreground/10 border-[1px] rounded-2xl ${className}`}
                 key={tweet.tweet_id}>
-                <CardHeader as={!enableEdit ? Link : 'div'}
-                href={`/tweets/${tweet.tweet_id}`} target="_blank" className="flex justify-between gap-4">
+                <CardHeader as={'div'}
+                className="flex justify-between gap-4">
                     <Avatar
                         className="flex-shrink-0"
                         isBordered
@@ -54,15 +52,15 @@ export default function TweetCard({ tweet,videoPreview=true,enableEdit = false,l
                             <Chip color="default" variant="flat" size="sm" className="flex items-center gap-1 pl-2" endContent={<RiArrowDropDownLine />}>{tweet.tweet_threadscount}</Chip>
                         </div>}
                 </CardHeader>
-                <CardBody as={!enableEdit ? Link : 'div'}
-                href={`/tweets/${tweet.tweet_id}`} target="_blank" className=" flex flex-col min-h-96">
-                    <pre className={`whitespace-pre-wrap ${enableEdit ? "border-[1px] border-primary p-2 rounded-md text-foreground" : ""}`} 
-                        contentEditable={enableEdit} onInput={(e) => {
+                <CardBody as={'div'}
+                className=" flex flex-col min-h-96">
+                    <pre className={`whitespace-pre-wrap border-[1px] border-primary p-2 rounded-md text-foreground`} 
+                        contentEditable={false} onInput={(e) => {
                         setTextLength(e.target.innerText.length);
                     }} 
 
                     suppressContentEditableWarning={true}>{tweet.tweet_text}</pre>
-                    {enableEdit && <div className='text-small text-default-400 text-right'>{textLength} / 280</div>}
+                    <div className='text-small text-default-400 text-right'>{textLength} / 280</div>
                     {/* 图片显示逻辑 */}
                     {tweet.tweet_media && tweet.tweet_media.length > 0 && (
                         <div className="mt-3">
