@@ -8,8 +8,8 @@ import { parseTweetData } from '@/lib/parser';
 import TweetCard from '@/app/components/ui/TweetCard';
 
 
-export default function Downloader({ params: { locale } }) {
-    const searchParams = useSearchParams();
+export default function Downloader({ params }) {
+    const searchParams = useSearchParams(params);
     const url = searchParams.get('url');
 
     const router = useRouter();
