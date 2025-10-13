@@ -8,7 +8,7 @@ import { parseTweetData } from '@/lib/parser';
 import TweetCard from '@/app/components/ui/TweetCard';
 
 
-export default function Downloader() {
+export default function Downloader({ params: { locale } }) {
     const searchParams = useSearchParams();
     const url = searchParams.get('url');
 
